@@ -5,10 +5,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  name: String,
+  googleId: String,
+  imagUrl: String,
   email: String,
+  givenName: String,
+  familyName: String,
+  name: String,
+  accessToken: String,
 });
 
 const UserModel = mongoose.model("User", UserSchema);
 
-module.exports = UserModel
+module.exports = UserModel;
