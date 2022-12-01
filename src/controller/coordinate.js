@@ -3,14 +3,12 @@ const CoordModel = require("../models/coordinate");
 async function createCoordinate(req, res) {
   const body = req.body;
   const userId = req.headers.id;
-  // TODO CANNOT CREATE
-  const coord = await CoordModel.findOne({ user_id: userId });
+  const coord = await CoordModel.findOne({ user_id: JSON.parse(userId) });
   if (!coord) {
     try {
       await CoordModel.create({ ...body, user_id: JSON.parse(userId) });
       res.status(200).json();
     } catch (error) {
-      console.log(error);
       res.status(400).json({ message: "Impossible de créer ces coordonnes" });
     }
   } else {
@@ -22,8 +20,24 @@ async function createCoordinate(req, res) {
 
 async function getCoordinate(req, res) {
   try {
-    const coord = await CoordModel.findOne({ user_id: req.params.id });
+    const coord = await CoordModel.findOne({
+      user_id: JSON.parse(req.headers.id),
+    });
     res.status(200).json(coord);
+  } catch (error) {
+    res.status(404).json();
+  }
+}
+
+async function updateCoordinate(req, res) {
+  const body = req.body;
+  const userId = req.headers.id;
+  try {
+    const coord = await CoordModel.updateOne({
+      user_id: JSON.parse(userId),
+      ...body,
+    });
+    res.status(200).json()
   } catch (error) {
     res.status(404).json();
   }
@@ -32,4 +46,5 @@ async function getCoordinate(req, res) {
 module.exports = {
   createCoordinate,
   getCoordinate,
+  updateCoordinate,
 };
