@@ -7,9 +7,13 @@ const Schema = mongoose.Schema;
 
 const CoordSchema = new Schema({
   user_id: { type: String, require: true },
+  name: String,
   email: String,
   phone: String,
-  phoneEnterprise: String,
+  linkedin: String,
+  instagram: String,
+  youtube: String,
+  facebook: String,
   place: String,
 });
 
